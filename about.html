@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+
+<html lang="en-KE">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About Us | Imarika Empowerment Loans</title>
+<style>
+    :root {
+      --brand: #225AAC;
+      --accent: #FFC107;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #F1F5FF;
+      color: #333;
+    }
+
+    header {
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-title svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .logo-title span {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--brand);
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .content h1 {
+      color: var(--brand);
+      margin-bottom: 1rem;
+    }
+
+    .content p {
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+<nav id="mobileNav" style="position:fixed;top:0;left:-100%;width:70%;max-width:280px;height:100vh;background:#fff;box-shadow:2px 0 10px rgba(0,0,0,0.1);transition:left 0.3s ease;z-index:1000;padding:24px;"><ul style="list-style:none;padding:0;margin:0;"><li><a href='/login' style='display:block;padding:12px 0;color:#225AAC;font-weight:bold;text-decoration:none;'>← Back to Login</a></li></ul></nav><div id="menuOverlay" style="position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,0.4);display:none;z-index:999;"></div>
+<header class="header" style="background: #ffffff; padding: 1rem; display: flex; align-items: center; justify-content: space-between;">
+  <button id="hamburger" aria-label="Open menu" style="background: none; border: none; cursor: pointer;">
+    <span style="display: block; width: 25px; height: 3px; background: #225AAC; margin: 5px 0;"></span>
+    <span style="display: block; width: 25px; height: 3px; background: #225AAC; margin: 5px 0;"></span>
+    <span style="display: block; width: 25px; height: 3px; background: #225AAC; margin: 5px 0;"></span>
+  </button>
+  <h1 style="color: #225AAC; font-size: 20px; margin: 0; font-weight: bold;">About Us</h1>
+  <a href="/login" style="background-color: #FFD700; color: #000; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 14px;">
+    Back to Login
+  </a>
+</header>
+
+<main class="content"><h1>About Us</h1><p>Imarika Empowerment Loans is a pioneering digital financial services provider dedicated to offering fast, secure, and accessible mobile-based solutions to individuals and businesses across Kenya. Since our founding, we have remained committed to empowering our customers by delivering instant financial relief and communication tools that meet the needs of the modern, mobile-first generation.</p><p>Our core service is mobile lending — enabling Kenyans to access instant loans ranging from KES 1,000 to KES 100,000 directly through M-PESA, with a simplified and secure application process. These loans are designed to cover emergencies, business growth, education, medical needs, and other important personal goals.</p><p>In addition to financial services, Imarika is proud to offer a wide variety of affordable data bundles through our exclusive Imarika Bundles platform. Users can access daily, weekly, and monthly plans, including combo packs that feature SMS and call minutes. These bundles are tailored to support remote work, learning, and everyday communication — ensuring every Kenyan stays connected and productive.</p><p>Imarika is a registered financial service provider operating within Kenyan regulations. We take customer privacy, data security, and compliance seriously, ensuring all transactions are encrypted and protected at every step.</p><p>Our technology is at the heart of what we do. With a responsive web platform and mobile interface, customers can apply for loans or purchase bundles in just a few taps. We continuously innovate to make these services more efficient, reliable, and customer-friendly.</p><p>Beyond business, Imarika supports community development by promoting financial literacy, youth entrepreneurship, and digital inclusion through education programs and awareness campaigns. We believe that real empowerment comes not just from access, but from understanding and opportunity.</p><p>Our team includes experienced financial analysts, customer support professionals, and tech engineers working round the clock to ensure a smooth experience for every customer.</p><p>Looking ahead, Imarika aims to become East Africa’s leading all-in-one digital empowerment platform — offering loans, data connectivity, and financial education to millions of users across the region.</p><p>Whether you’re facing an emergency, planning your next big step, or simply looking to stay connected, Imarika is here to support your journey with tools that are simple, smart, and secure.</p></main>
+<footer>
+    © 2025 Imarika Empowerment Loans. All rights reserved.
+  </footer>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('hamburger');
+  const nav = document.getElementById('mobileNav');
+  const overlay = document.getElementById('menuOverlay');
+
+  btn.addEventListener('click', () => {
+    const open = nav.style.left === '0px';
+    nav.style.left = open ? '-100%' : '0';
+    overlay.style.display = open ? 'none' : 'block';
+  });
+
+  overlay.addEventListener('click', () => {
+    nav.style.left = '-100%';
+    overlay.style.display = 'none';
+  });
+});
+</script></body>
+</html>

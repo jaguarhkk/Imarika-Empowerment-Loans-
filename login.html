@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+
+<html lang="en-KE">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
+   Imarika | Login/Register
+  </title>
+<style>
+   :root {
+      --brand: #225AAC;
+      --accent: #FFC107;
+    }
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .logo-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 2rem;
+    }
+    .logo-title svg {
+      width: 32px;
+      height: 32px;
+    }
+    .logo-title span {
+      font-weight: bold;
+      font-size: 20px;
+      color: var(--brand);
+    }
+    .form-card {
+      background: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+    }
+    .form-card h2 {
+      color: var(--brand);
+      margin-bottom: 1rem;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      color: #333;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .btn {
+      background-color: var(--accent);
+      color: #000;
+      font-weight: bold;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .link {
+      display: block;
+      margin-top: 1rem;
+      text-align: center;
+      color: var(--brand);
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+    footer {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: #888;
+      text-align: center;
+    }
+  </style>
+<style>
+   @keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.bounce-icon {
+  animation: bounce 1.5s infinite;
+}
+  </style>
+<style>
+  .spinner {
+    display: none;
+    margin-top: 10px;
+    text-align: center;
+  }
+  .spinner div {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #FFC107;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style>
+</head>
+<body style="background: linear-gradient(to bottom, #F1F5FF, #ffffff); background-color: #E3F0FF;">
+<header style="width:100%; padding: 1rem 0; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: center;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<svg height="32" viewbox="0 0 64 64" width="32" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 8l-4-6h24l-4 6z" fill="#225AAC" stroke="#000" stroke-linejoin="round" stroke-width="2">
+</path>
+<path d="M12 24c0-6.6 8.8-12 20-12s20 5.4 20 12l-4 24c-1.3 6.6-7.2 12-16 12s-14.7-5.4-16-12l-4-24z" fill="#225AAC" stroke="#000" stroke-linejoin="round" stroke-width="2">
+</path>
+<path d="M32 26c-4 0-6 2-6 4s2 4 6 4 6 2 6 4-2 4-6 4m0-16v16" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="2">
+</path>
+</svg>
+<span style="font-size: 18px; font-weight: bold; color: #225AAC;">
+     Imarika Empowerment Loans login/register
+    </span>
+</div>
+<style>
+  .hamburger-menu {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+  }
+
+  .menu-toggle {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #225AAC;
+  }
+
+  .menu-content {
+    display: none;
+    position: absolute;
+    right: 16px;
+    top: 56px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 999;
+    width: 240px;
+  }
+
+  .menu-content a {
+    display: block;
+    padding: 10px;
+    color: #225AAC;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .menu-content a:hover {
+    background-color: #f1f1f1;
+  }
+</style>
+<div class="hamburger-menu">
+<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+<div class="menu-content" id="menuContent">
+<a href="tel:+254799439770">whatsup Support 0799439770</a>
+<a href="#qualifications"> Qualifications for loan</a>
+</div>
+</div>
+</header>
+<!-- Imarika Registration Form -->
+<div class="form-card" id="registerForm">
+<div style="display: flex; justify-content: center; margin-bottom: 1rem;">
+<svg class="bounce-icon" height="24" style="flex-shrink: 0;" viewbox="0 0 64 64" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 8l-4-6h24l-4 6z" fill="#225AAC" stroke="#000" stroke-linejoin="round" stroke-width="2">
+</path>
+<path d="M12 24c0-6.6 8.8-12 20-12s20 5.4 20 12l-4 24c-1.3 6.6-7.2 12-16 12s-14.7-5.4-16-12l-4-24z" fill="#225AAC" stroke="#000" stroke-linejoin="round" stroke-width="2">
+</path>
+<path d="M32 26c-4 0-6 2-6 4s2 4 6 4 6 2 6 4-2 4-6 4m0-16v16" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="2">
+</path>
+</svg>
+</div>
+<div style="background-color: #FFF9E5; border-left: 4px solid #FFC107; padding: 1rem; margin: 1rem 0; border-radius: 8px; color: #333; text-align: center;">Welcome to Imarika Empowerment Loans! Get quick, secure access to funds for your needs. <strong>Register now</strong> to start your journey.</div>
+<h2>
+    Register
+   </h2>
+<form action="/register" method="POST">
+<div class="form-group">
+<label for="regEmail"> Email 《required》 </label>
+<input id="regEmail" name="email" required="" type="text"/>
+<span class="error" style="color:red;font-size:0.8rem;">
+</span>
+</div>
+<div class="form-group">
+<label for="regPassword">
+      Create a secure and strong Password 《strong password 》
+     </label>
+<span class="error" style="color:red;font-size:0.8rem;">
+</span>
+<div style="position: relative;"><button onclick="togglePassword('regPassword', this)" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer;" type="button">👁️</button><div style="display: flex; flex-direction: column;"><input id="regPassword" name="password" required="" type="password"/><button onclick="togglePassword('regPassword', this)" style="margin-top: 6px; align-self: flex-end; background: none; border: none; color: #225AAC; cursor: pointer;" type="button">👁️ Show Password</button></div></div></div>
+<button class="btn" type="submit">
+     Register
+    </button>
+<div class="spinner" id="registerSpinner"><div></div></div>
+</form>
+<div class="link" onclick="showForm('login')">
+    Already have an account? Log In
+   </div>
+</div>
+<!-- Imarika Login Form -->
+<div class="form-card hidden" id="loginForm">
+<div style="display: flex; justify-content: center; margin-bottom: 1rem;">
+<svg class="bounce-icon" height="24" style="flex-shrink: 0;" viewbox="0 0 64 64" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 8l-4-6h24l-4 6z" fill="#225AAC" stroke="#000" stroke-linejoin="round" stroke-width="2">
+</path>
+<path d="M12 24c0-6.6 8.8-12 20-12s20 5.4 20 12l-4 24c-1.3 6.6-7.2 12-16 12s-14.7-5.4-16-12l-4-24z" fill="#225AAC" stroke="#000" stroke-linejoin="round" stroke-width="2">
+</path>
+<path d="M32 26c-4 0-6 2-6 4s2 4 6 4 6 2 6 4-2 4-6 4m0-16v16" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="2">
+</path>
+</svg>
+</div>
+<div style="background-color: #FFF9E5; border-left: 4px solid #FFC107; padding: 1rem; margin: 1rem 0; border-radius: 8px; color: #333; text-align: center;">Welcome back! Access your loan dashboard and continue your financial empowerment journey. <strong>Login now</strong> to get started.</div>
+<h2>
+    Login
+   </h2>
+<form action="/login" method="POST">
+<div class="form-group">
+<label for="logEmail"> Email 《registered email》</label>
+<input id="logEmail" name="email" required="" type="text"/>
+<span class="error" style="color:red;font-size:0.8rem;">
+</span>
+</div>
+<div class="form-group">
+<label for="logPassword">
+      Password 《registered password 》
+     </label>
+<span class="error" style="color:red;font-size:0.8rem;">
+</span>
+<div style="position: relative;"><button onclick="togglePassword('logPassword', this)" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer;" type="button">👁️</button><div style="display: flex; flex-direction: column;"><input id="logPassword" name="password" required="" type="password"/><button onclick="togglePassword('logPassword', this)" style="margin-top: 6px; align-self: flex-end; background: none; border: none; color: #225AAC; cursor: pointer;" type="button">👁️ Show Password</button></div></div></div>
+<button class="btn" type="submit">
+     Log In
+    </button>
+<div class="spinner" id="loginSpinner"><div></div></div>
+</form>
+<div class="link" onclick="showForm('register')">
+    Don't have an account?  Register
+   </div>
+<div class="link" onclick="showForm('forgot')">
+    Forgot your password?
+   </div>
+</div>
+<!-- Imarika Forgot Password Form -->
+<div class="form-card hidden" id="forgotForm">
+<div style="display: flex; justify-content: center; margin-bottom: 1rem;">
+<svg class="bounce-icon" height="24" viewbox="0 0 64 64" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 8l-4-6h24l-4 6z" fill="#225AAC" stroke="#000" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M12 24c0-6.6 8.8-12 20-12s20 5.4 20 12l-4 24c-1.3 6.6-7.2 12-16 12s-14.7-5.4-16-12l-4-24z" fill="#225AAC" stroke="#000" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M32 26c-4 0-6 2-6 4s2 4 6 4 6 2 6 4-2 4-6 4m0-16v16" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+</div>
+<div style="background-color: #FFF9E5; border-left: 4px solid #FFC107; padding: 1rem; margin: 1rem 0; border-radius: 8px; color: #333; text-align: center;">No worries! Forgot your password? We’re here to help. <strong>Follow the steps below</strong> to reset it quickly.</div>
+<h2>Forgot Password</h2>
+<p style="text-align: center; margin-bottom: 1.5rem; color: #333;">
+    Forgot your password? Tap the button below to contact support via WhatsApp.
+  </p>
+<a href="https://wa.me/254799439770?text=Hello%20support%20I%20forgot my %20password%20please%20check%20for%20me" style="text-decoration: none;" target="_blank">
+<button class="btn" style="background-color: #FFC107; color: #000;">
+      💬 Chat on WhatsApp
+    </button>
+</a>
+<div class="link" onclick="showForm('login')">
+    Back to Login
+  </div>
+</div>
+<div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: -1rem; margin-bottom: 2rem; font-size: 0.95rem; color: #225AAC;">
+<svg fill="none" height="20" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 17C12.5523 17 13 16.5523 13 16V14C13 13.4477 12.5523 13 12 13C11.4477 13 11 13.4477 11 14V16C11 16.5523 11.4477 17 12 17Z" fill="#225AAC"></path>
+<path clip-rule="evenodd" d="M17 9V7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7V9C5.89543 9 5 9.89543 5 11V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V11C19 9.89543 18.1046 9 17 9ZM15 9H9V7C9 5.34315 10.3431 4 12 4C13.6569 4 15 5.34315 15 7V9Z" fill="#225AAC" fill-rule="evenodd"></path>
+</svg>
+<span>Your Conection is secure and encrypted</span>
+</div><section class="info" id="qualifications" style="max-width: 800px; margin: 2rem auto;">
+<h2 style="color: #225AAC;">
+    Qualifications for Online Loans in Kenya via M-Pesa
+   </h2>
+<table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+<tbody>
+<tr>
+<td>
+<strong>
+        Amount
+       </strong>
+</td>
+<td>
+       15,000 KES to 200,000 KES
+      </td>
+</tr>
+<tr>
+<td>
+<strong>
+        Decision
+       </strong>
+</td>
+<td>
+       1-15 minutes
+      </td>
+</tr>
+<tr>
+<td>
+<strong>
+        Age of borrower
+       </strong>
+</td>
+<td>
+       18-62 years old
+      </td>
+</tr>
+<tr>
+<td>
+<strong>
+        Occupation
+       </strong>
+</td>
+<td>
+       Currently employed or with a stable source of income
+      </td>
+</tr>
+<tr>
+<td>
+<strong>
+        Location
+       </strong>
+</td>
+<td>
+       Kenyans that are currently living in Kenya
+      </td>
+</tr>
+<tr>
+<td>
+<strong>
+        Requirements
+       </strong>
+</td>
+<td>
+       National ID, Mobile phone
+      </td>
+</tr>
+</tbody>
+</table>
+<p style="line-height: 1.6;">
+    Imarika Empowerment Loans provides quick and convenient access to funds through our reliable M-Pesa loan platform.
+    Whether it's an emergency, education, medical bill, or business need—our digital lending solution makes borrowing fast and secure.
+    Our system is fully online, transparent, and respects user privacy and safety.
+   </p>
+<p style="line-height: 1.6;">
+    Apply from anywhere, anytime. With a short application process and approval in minutes, our service ensures that you get the help you need without delay.
+    Maintain good repayment habits to increase your borrowing limit and access better loan terms over time.
+   </p>
+</section>
+<section style="max-width: 500px; margin: 3rem auto; padding: 2rem; background: #fdfdfd; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.05); text-align: center;">
+<h2 style="color: #225AAC; margin-bottom: 2rem;">Why Choose Imarika</h2>
+<div style="margin-bottom: 1.5rem;">
+<img alt="Licensed" src="https://img.icons8.com/ios-filled/50/225AAC/verified-account.png" width="40"/>
+<h3 style="margin: 0.5rem 0; color: #333;">Licensed &amp; Regulated</h3>
+<p style="margin: 0; color: #666;">Registered with Central Bank</p>
+</div>
+<div style="margin-bottom: 1.5rem;">
+<img alt="Customers" src="https://img.icons8.com/ios-filled/50/225AAC/conference-call.png" width="40"/>
+<h3 style="margin: 0.5rem 0; color: #333;">50,000+ Customers</h3>
+<p style="margin: 0; color: #666;">Trusted by many</p>
+</div>
+<div style="margin-bottom: 1.5rem;">
+<img alt="Support" src="https://img.icons8.com/ios-filled/50/225AAC/online-support.png" width="40"/>
+<h3 style="margin: 0.5rem 0; color: #333;">24/7 Support</h3>
+<p style="margin: 0; color: #666;">Always here to help</p>
+</div>
+<div>
+<img alt="SSL" src="https://img.icons8.com/ios-filled/50/225AAC/lock.png" width="40"/>
+<h3 style="margin: 0.5rem 0; color: #333;">SSL Secured</h3>
+<p style="margin: 0; color: #666;">256-bit encryption</p>
+</div>
+</section>
+<footer style="text-align: center; padding: 2rem 1rem; font-size: 0.85rem; color: #555; border-top: 3px solid #225AAC; padding-top: 1rem;">
+<nav style="margin-bottom: 1rem; display: flex; justify-content: center; flex-wrap: wrap; gap: 20px;">
+<a href="about.html" style="margin: 0 10px; color: #225AAC; text-decoration: none;">About Us</a>
+<a href="privacy.html" style="margin: 0 10px; color: #225AAC; text-decoration: none;">Privacy Policy</a>
+<a href="/terms" style="margin: 0 10px; color: #225AAC; text-decoration: none;">Terms of Service</a>
+<a href="rules.html" style="margin: 0 10px; color: #225AAC; text-decoration: none;">Rules</a>
+</nav>
+<div style="text-align: center; font-size: 0.85rem; color: #555;">
+        © 2025 Imarika Empowerment Loans. All rights reserved.
+    </div>
+</footer>
+<script>
+   function showForm(form) {
+      document.getElementById('registerForm').classList.add('hidden');
+      document.getElementById('loginForm').classList.add('hidden');
+      document.getElementById('forgotForm').classList.add('hidden');
+      document.getElementById(form + 'Form').classList.remove('hidden');
+    }
+  </script>
+<script>
+   function validateForm(formId) {
+    const form = document.getElementById(formId);
+    const inputs = form.querySelectorAll("input[required]");
+    let isValid = true;
+
+    inputs.forEach(input => {
+      if (!input.value.trim()) {
+        input.style.borderColor = "red";
+        isValid = false;
+      } else {
+        input.style.borderColor = "#ccc";
+      }
+    });
+
+    return isValid;
+  }
+
+  // Attach submit events
+  window.addEventListener("DOMContentLoaded", () => {
+    const registerForm = document.getElementById("registerForm").querySelector("form");
+    const loginForm = document.getElementById("loginForm").querySelector("form");
+    const forgotForm = document.getElementById("forgotForm").querySelector("form");
+
+    registerForm.onsubmit = (e) => {
+      if (!validateForm("registerForm")) e.preventDefault();
+    };
+    loginForm.onsubmit = (e) => {
+      if (!validateForm("loginForm")) e.preventDefault();
+    };
+    forgotForm.onsubmit = (e) => {
+      if (!validateForm("forgotForm")) e.preventDefault();
+    };
+  });
+  </script>
+<script>
+   function showError(input, message) {
+    const errorSpan = input.nextElementSibling;
+    errorSpan.textContent = message;
+    input.style.borderColor = "red";
+  }
+
+  function clearError(input) {
+    const errorSpan = input.nextElementSibling;
+    errorSpan.textContent = "";
+    input.style.borderColor = "#ccc";
+  }
+
+  function validateForm(formId) {
+    const form = document.getElementById(formId);
+    const inputs = form.querySelectorAll("input[required]");
+    let isValid = true;
+
+    inputs.forEach(input => {
+      const value = input.value.trim();
+      clearError(input);
+
+      if (!value) {
+        showError(input, "This field is required.");
+        isValid = false;
+      } else if (input.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        showError(input, "Please enter a valid email address.");
+        isValid = false;
+      } else if (input.name === "password" && value.length < 6) {
+        showError(input, "Password must be at least 6 characters.");
+        isValid = false;
+      }
+    });
+
+    return isValid;
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const registerForm = document.getElementById("registerForm").querySelector("form");
+    const loginForm = document.getElementById("loginForm").querySelector("form");
+    const forgotForm = document.getElementById("forgotForm").querySelector("form");
+
+    registerForm.onsubmit = (e) => {
+      if (!validateForm("registerForm")) e.preventDefault();
+    };
+    loginForm.onsubmit = (e) => {
+      if (!validateForm("loginForm")) e.preventDefault();
+    };
+    forgotForm.onsubmit = (e) => {
+      if (!validateForm("forgotForm")) e.preventDefault();
+    };
+  });
+  </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const regForm = document.querySelector("#registerForm form");
+    const logForm = document.querySelector("#loginForm form");
+
+    regForm.addEventListener("submit", function(e) {
+      const spinner = document.getElementById("registerSpinner");
+      if (spinner) spinner.style.display = "block";
+    });
+
+    logForm.addEventListener("submit", function(e) {
+      const spinner = document.getElementById("loginSpinner");
+      if (spinner) spinner.style.display = "block";
+    });
+  });
+</script>
+<!-- Firebase App (the core Firebase SDK) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBV01v57xGKUy-vUmVZw2vzHQa6FPBayHI",
+    authDomain: "imarikaweb.firebaseapp.com",
+    projectId: "imarikaweb",
+    storageBucket: "imarikaweb.firebasestorage.app",
+    messagingSenderId: "683019239334",
+    appId: "1:683019239334:web:37212f42f75d23aec81967",
+    measurementId: "G-6PJXZWQ6NE"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+</script>
+<style>
+  .dropdown-message {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 1rem 2rem;
+    border-radius: 6px;
+    color: #fff;
+    z-index: 1000;
+    font-weight: bold;
+    display: none;
+  }
+  .dropdown-success { background: #4CAF50; }
+  .dropdown-error { background: #F44336; }
+</style>
+<div class="dropdown-message" id="dropdown"></div>
+<script>
+  function showDropdown(message, type = "success") {
+    const dropdown = document.getElementById("dropdown");
+    dropdown.textContent = message;
+    dropdown.className = "dropdown-message dropdown-" + type;
+    dropdown.style.display = "block";
+    setTimeout(() => { dropdown.style.display = "none"; }, 3000);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const registerForm = document.querySelector("#registerForm form");
+    const loginForm = document.querySelector("#loginForm form");
+    const registerSpinner = document.getElementById("registerSpinner");
+    const loginSpinner = document.getElementById("loginSpinner");
+
+    registerForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("regEmail").value.trim();
+      const password = document.getElementById("regPassword").value;
+      registerSpinner.style.display = "block";
+
+      try {
+        await firebase.auth().createUserWithEmailAndPassword(email, password);
+        showDropdown("Registration successful! Redirecting to login...", "success");
+        setTimeout(() => {
+          showForm("login");
+        }, 2000);
+      } catch (error) {
+        showDropdown(error.message, "error");
+      } finally {
+        registerSpinner.style.display = "none";
+      }
+    });
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("logEmail").value.trim();
+      const password = document.getElementById("logPassword").value;
+      loginSpinner.style.display = "block";
+
+      try {
+        await firebase.auth().signInWithEmailAndPassword(email, password);
+        localStorage.setItem("imarika_last_login", Date.now().toString());
+        showDropdown("Login successful! Redirecting...", "success");
+        setTimeout(() => {
+          window.location.href = "index.html"; // Replace later
+        }, 2000);
+      } catch (error) {
+        showDropdown(error.message, "error");
+      } finally {
+        loginSpinner.style.display = "none";
+      }
+    });
+  });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const emailInput = document.getElementById("regEmail");
+  const passwordInput = document.getElementById("regPassword");
+  const emailError = emailInput.nextElementSibling;
+  const passwordError = passwordInput.nextElementSibling;
+
+  function validateEmail() {
+    const value = emailInput.value.trim();
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    if (!value) {
+      emailError.textContent = "❗️Email is required";
+      emailError.style.color = "red";
+    } else if (!isValid) {
+      emailError.textContent = "❗️Enter a valid email";
+      emailError.style.color = "red";
+    } else {
+      emailError.textContent = "✅️ Email looks good😊";
+      emailError.style.color = "green";
+    }
+  }
+
+  function validatePassword() {
+    const value = passwordInput.value.trim();
+    if (!value) {
+      passwordError.textContent = "❗️Password is required🤔";
+      passwordError.style.color = "red";
+    } else if (value.length < 6) {
+      passwordError.textContent = "❗️ Must be at least 6 characters🤔";
+      passwordError.style.color = "red";
+    } else {
+      passwordError.textContent = "✅️ Strong password😊";
+      passwordError.style.color = "green";
+    }
+  }
+
+  emailInput.addEventListener("input", validateEmail);
+  passwordInput.addEventListener("input", validatePassword);
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const emailInput = document.getElementById("regEmail");
+  const passwordInput = document.getElementById("regPassword");
+  const registerBtn = document.querySelector("#registerForm button[type='submit']");
+  const emailError = emailInput.nextElementSibling;
+  const passwordError = passwordInput.nextElementSibling;
+
+  function checkFormValidity() {
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim());
+    const passwordValid = passwordInput.value.trim().length >= 6;
+    registerBtn.disabled = !(emailValid && passwordValid);
+    registerBtn.style.opacity = registerBtn.disabled ? "0.5" : "1";
+    registerBtn.style.cursor = registerBtn.disabled ? "not-allowed" : "pointer";
+  }
+
+  function validateEmail() {
+    const value = emailInput.value.trim();
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    if (!value) {
+      emailError.textContent = "❗️ Email is required🤔";
+      emailError.style.color = "red";
+    } else if (!isValid) {
+      emailError.textContent = "❗️ Enter a valid email🤔";
+      emailError.style.color = "red";
+    } else {
+      emailError.textContent = "✅️ Email looks good😊";
+      emailError.style.color = "green";
+    }
+    checkFormValidity();
+  }
+
+  function validatePassword() {
+    const value = passwordInput.value.trim();
+    if (!value) {
+      passwordError.textContent = "❗️Password is required🤔";
+      passwordError.style.color = "red";
+    } else if (value.length < 6) {
+      passwordError.textContent = "❗️Must be at least 6 characters🤔";
+      passwordError.style.color = "red";
+    } else {
+      passwordError.textContent = "✅️ Strong password😊";
+      passwordError.style.color = "green";
+    }
+    checkFormValidity();
+  }
+
+  emailInput.addEventListener("input", validateEmail);
+  passwordInput.addEventListener("input", validatePassword);
+
+  // Initialize on page load
+  checkFormValidity();
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const emailInput = document.getElementById("logEmail");
+  const loginBtn = document.querySelector("#loginForm button[type='submit']");
+  const emailError = emailInput.nextElementSibling;
+
+  function validateEmail() {
+    const value = emailInput.value.trim();
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    if (!value) {
+      emailError.textContent = "❗️ Email is required🤔";
+      emailError.style.color = "red";
+    } else if (!isValid) {
+      emailError.textContent = "❗️ Enter a valid email🤔";
+      emailError.style.color = "red";
+    } else {
+      emailError.textContent = "✅️ Email looks good😊";
+      emailError.style.color = "green";
+    }
+    loginBtn.disabled = !isValid;
+    loginBtn.style.opacity = loginBtn.disabled ? "0.5" : "1";
+    loginBtn.style.cursor = loginBtn.disabled ? "not-allowed" : "pointer";
+  }
+
+  emailInput.addEventListener("input", validateEmail);
+
+  // Initial check
+  validateEmail();
+});
+</script>
+<script>
+function togglePassword(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (input.type === "password") {
+    input.type = "text";
+    btn.textContent = "🙈 Hide Password";
+  } else {
+    input.type = "password";
+    btn.textContent = "👁️ Show Password";
+  }
+}
+</script>
+<script>
+  let closeMenuTimeout;
+
+  function toggleMenu() {
+    const menu = document.getElementById('menuContent');
+    const isVisible = menu.style.display === 'block';
+    menu.style.display = isVisible ? 'none' : 'block';
+
+    if (!isVisible) {
+      clearTimeout(closeMenuTimeout);
+      closeMenuTimeout = setTimeout(() => {
+        menu.style.display = 'none';
+      }, 3000);
+    }
+  }
+
+  document.addEventListener('click', function(event) {
+    const menu = document.getElementById('menuContent');
+    if (!event.target.closest('.hamburger-menu')) {
+      menu.style.display = 'none';
+      clearTimeout(closeMenuTimeout);
+    }
+  });
+</script>
+</body>
+</html>
